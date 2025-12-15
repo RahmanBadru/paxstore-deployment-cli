@@ -1,8 +1,8 @@
 package com.paxstore.cli.commands;
 
-import com.pax.market.api.sdk.java.api.app.AppApi;
-import com.pax.market.api.sdk.java.api.app.dto.ApkInfo;
-import com.pax.market.api.sdk.java.base.dto.Result;
+import com.pax.market.api.sdk.java.api.developer.DeveloperApi;
+import com.pax.market.api.sdk.java.api.base.dto.Result;
+import com.pax.market.api.sdk.java.api.base.dto.ApkInfoDTO;
 import com.paxstore.cli.config.PaxStoreConfig;
 import com.paxstore.cli.utils.ResultHandler;
 import picocli.CommandLine.Command;
@@ -58,14 +58,14 @@ public class GetApkInfoCommand implements Callable<Integer> {
         }
         
         // Create API instance
-        AppApi appApi = new AppApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
+        DeveloperApi api = new DeveloperApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
         
         if (!quiet) {
             ResultHandler.printInfo("Retrieving APK information...");
         }
         
         // Get APK info
-        Result<ApkInfo> result = appApi.getApkById(apkId);
+        Result<ApkInfoDTO> result = api.getApkById(apkId);
         
         return ResultHandler.handleResult(result, outputFormat, quiet);
     }

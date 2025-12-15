@@ -1,8 +1,9 @@
 package com.paxstore.cli.commands;
 
-import com.pax.market.api.sdk.java.api.app.AppApi;
-import com.pax.market.api.sdk.java.api.app.dto.ApkVersionInfo;
-import com.pax.market.api.sdk.java.base.dto.Result;
+import com.pax.market.api.sdk.java.api.developer.DeveloperApi;
+import com.pax.market.api.sdk.java.api.base.dto.Result;
+import com.pax.market.api.sdk.java.api.base.dto.ApkVersionDTO;
+import com.pax.market.api.sdk.java.api.base.dto.PageInfo;
 import com.paxstore.cli.config.PaxStoreConfig;
 import com.paxstore.cli.utils.ResultHandler;
 import picocli.CommandLine.Command;
@@ -59,14 +60,14 @@ public class GetApkVersionsCommand implements Callable<Integer> {
         }
         
         // Create API instance
-        AppApi appApi = new AppApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
+        DeveloperApi api = new DeveloperApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
         
         if (!quiet) {
             ResultHandler.printInfo("Retrieving APK versions...");
         }
         
         // Get APK versions
-        Result<List<ApkVersionInfo>> result = appApi.getApkVersionList(appId);
+        Result<PageInfo<ApkVersionDTO>> result = api.getApkVersionList(appId);
         
         return ResultHandler.handleResult(result, outputFormat, quiet);
     }

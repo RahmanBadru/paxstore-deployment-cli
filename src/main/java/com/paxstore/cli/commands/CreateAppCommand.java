@@ -1,8 +1,8 @@
 package com.paxstore.cli.commands;
 
-import com.pax.market.api.sdk.java.api.app.AppApi;
-import com.pax.market.api.sdk.java.api.app.dto.CreateSingleAppRequest;
-import com.pax.market.api.sdk.java.base.dto.Result;
+import com.pax.market.api.sdk.java.api.developer.DeveloperApi;
+import com.pax.market.api.sdk.java.api.base.dto.Result;
+import com.pax.market.api.sdk.java.api.developer.dto.step.CreateSingleAppRequest;
 import com.paxstore.cli.config.PaxStoreConfig;
 import com.paxstore.cli.utils.ResultHandler;
 import picocli.CommandLine.Command;
@@ -65,7 +65,7 @@ public class CreateAppCommand implements Callable<Integer> {
         }
         
         // Create API instance
-        AppApi appApi = new AppApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
+        DeveloperApi api = new DeveloperApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
         
         // Build request
         CreateSingleAppRequest request = new CreateSingleAppRequest();
@@ -77,7 +77,7 @@ public class CreateAppCommand implements Callable<Integer> {
         }
         
         // Create app
-        Result<String> result = appApi.createApp(request);
+        Result<String> result = api.createApp(request);
         
         return ResultHandler.handleResult(result, outputFormat, quiet);
     }
