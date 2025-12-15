@@ -1,0 +1,44 @@
+image: maven:3.8.6-openjdk-11
+
+definitions:
+  steps:
+    - step: &install-sdk
+        name: Install PAXStore SDK
+        caches:
+          - maven
+        script:
+          - git clone https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git
+          - cd paxstore-openapi-java-sdk
+          - mvn clean install -DskipTests
+          - cd ..
+        artifacts:
+          - "**"
+    
+    - step: &build-cli
+        name: Build CLI Tool
+        caches:
+          - maven
+        script:
+          - mvn clean package
+        artifacts:
+          - target/paxstore-cli.jar
+
+pipelines:
+  branches:
+    main:
+      - step: *install-sdk
+      - step: *build-cli
+      - step:
+          name: Upload to PAXStore
+          script:
+            - |
+              java -jar target/paxstore-cli.jar upload \
+                --apk-file app/build/outputs/apk/release/app-release.apk \
+                --app-name "MyApp" \
+                --base-type N \
+                --charge-type 0 \
+                --models "A920,A930" \
+                --categories "WL_PS" \
+                --short-desc "Build ${BITBUCKET_BUILD_NUMBER}" \
+                --description "Automated build from Bitbucket Pipelines" \
+                --release-notes "Build #${BITBUCKET_BUILD_NUMBER} - Commit: ${BITBUCKET_COMMIT:0:7}"

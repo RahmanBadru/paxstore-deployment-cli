@@ -1,0 +1,42 @@
+stages:
+  - build-sdk
+  - build-cli
+  - deploy
+
+install_sdk:
+  stage: build-sdk
+  image: maven:3.8.6-openjdk-11
+  script:
+    - git clone https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git
+    - cd paxstore-openapi-java-sdk
+    - mvn clean install -DskipTests
+  artifacts:
+    paths:
+      - .m2/repository
+
+build_cli:
+  stage: build-cli
+  image: maven:3.8.6-openjdk-11
+  script:
+    - mvn clean package
+  artifacts:
+    paths:
+      - target/paxstore-cli.jar
+
+deploy_to_paxstore:
+  stage: deploy
+  image: maven:3.8.6-openjdk-11
+  script:
+    - |
+      java -jar target/paxstore-cli.jar upload \
+        --apk-file app.apk \
+        --app-name "MyApp" \
+        --base-type N \
+        --charge-type 0 \
+        --models "A920" \
+        --categories "WL_PS" \
+        --short-desc "GitLab CI build" \
+        --description "Automated build" \
+        --release-notes "Pipeline ${CI_PIPELINE_ID}"
+  only:
+    - main

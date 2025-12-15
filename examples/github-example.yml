@@ -1,0 +1,44 @@
+name: Deploy to PAXStore
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      
+      - name: Install PAXStore SDK
+        run: |
+          git clone https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git
+          cd paxstore-openapi-java-sdk
+          mvn clean install -DskipTests
+      
+      - name: Build CLI
+        run: mvn clean package
+      
+      - name: Upload to PAXStore
+        env:
+          PAXSTORE_BASE_URL: ${{ secrets.PAXSTORE_BASE_URL }}
+          PAXSTORE_API_KEY: ${{ secrets.PAXSTORE_API_KEY }}
+          PAXSTORE_API_SECRET: ${{ secrets.PAXSTORE_API_SECRET }}
+        run: |
+          java -jar target/paxstore-cli.jar upload \
+            --apk-file app.apk \
+            --app-name "MyApp" \
+            --base-type N \
+            --charge-type 0 \
+            --models "A920" \
+            --categories "WL_PS" \
+            --short-desc "Automated build" \
+            --description "Build from GitHub Actions" \
+            --release-notes "Commit: ${{ github.sha }}"
