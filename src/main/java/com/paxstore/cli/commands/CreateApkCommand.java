@@ -1,8 +1,10 @@
 package com.paxstore.cli.commands;
 
-import com.pax.market.api.sdk.java.api.app.AppApi;
-import com.pax.market.api.sdk.java.api.app.dto.CreateSingleApkRequest;
-import com.pax.market.api.sdk.java.base.dto.Result;
+import com.pax.market.api.sdk.java.api.developer.DeveloperApi;
+import com.pax.market.api.sdk.java.api.base.dto.Result;
+import com.pax.market.api.sdk.java.api.developer.dto.step.CreateSingleApkRequest;
+import com.pax.market.api.sdk.java.api.io.UploadedFileContent;
+import com.pax.market.api.sdk.java.api.util.FileUtils;
 import com.paxstore.cli.config.PaxStoreConfig;
 import com.paxstore.cli.utils.FileHelper;
 import com.paxstore.cli.utils.ResultHandler;
@@ -125,13 +127,13 @@ public class CreateApkCommand implements Callable<Integer> {
         }
         
         // Create API instance
-        AppApi appApi = new AppApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
+        DeveloperApi api = new DeveloperApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
         
         // Build request
         CreateSingleApkRequest request = new CreateSingleApkRequest();
         request.setAppId(appId);
         request.setApkName(apkName);
-        request.setApkFile(new File(apkFile));
+        request.setAppFile(FileUtils.readFile(apkFile));
         request.setApkType(apkType);
         
         // Parse and set models
@@ -150,16 +152,16 @@ public class CreateApkCommand implements Callable<Integer> {
         request.setDescription(description);
         
         if (icon != null && !icon.isEmpty()) {
-            request.setIcon(new File(icon));
+            request.setIconFile(FileUtils.readFile(icon));
         }
         
         if (screenshots != null && !screenshots.isEmpty()) {
             String[] screenshotFiles = screenshots.split(",");
-            File[] screenshotFileArray = new File[screenshotFiles.length];
+            UploadedFileContent[] screenshotFileArray = new UploadedFileContent[screenshotFiles.length];
             for (int i = 0; i < screenshotFiles.length; i++) {
-                screenshotFileArray[i] = new File(screenshotFiles[i].trim());
+                screenshotFileArray[i] = FileUtils.readFile(screenshotFiles[i].trim());
             }
-            request.setScreenshots(screenshotFileArray);
+            request.setScreenshotFiles(screenshotFileArray);
         }
         
         if (!quiet) {
@@ -167,7 +169,7 @@ public class CreateApkCommand implements Callable<Integer> {
         }
         
         // Create APK
-        Result<Long> result = appApi.createApk(request);
+        Result<Long> result = api.createApk(request);
         
         return ResultHandler.handleResult(result, outputFormat, quiet);
     }

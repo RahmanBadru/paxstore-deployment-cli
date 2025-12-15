@@ -1,7 +1,7 @@
 package com.paxstore.cli.commands;
 
-import com.pax.market.api.sdk.java.api.app.AppApi;
-import com.pax.market.api.sdk.java.base.dto.Result;
+import com.pax.market.api.sdk.java.api.developer.DeveloperApi;
+import com.pax.market.api.sdk.java.api.base.dto.Result;
 import com.paxstore.cli.config.PaxStoreConfig;
 import com.paxstore.cli.utils.ResultHandler;
 import picocli.CommandLine.Command;
@@ -57,14 +57,14 @@ public class DeleteApkCommand implements Callable<Integer> {
         }
         
         // Create API instance
-        AppApi appApi = new AppApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
+        DeveloperApi api = new DeveloperApi(config.getBaseUrl(), config.getApiKey(), config.getApiSecret());
         
         if (!quiet) {
             ResultHandler.printInfo("Deleting APK (ID: " + apkId + ")...");
         }
         
         // Delete APK
-        Result<String> result = appApi.deleteApk(apkId);
+        Result<String> result = api.deleteApk(apkId);
         
         return ResultHandler.handleResult(result, outputFormat, quiet);
     }
