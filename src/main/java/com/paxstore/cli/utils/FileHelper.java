@@ -6,6 +6,9 @@ import java.io.File;
  * Utility class for file operations
  */
 public class FileHelper {
+    private static final long BYTES_PER_KB = 1024L;
+    private static final long BYTES_PER_MB = BYTES_PER_KB * 1024L;
+    private static final long BYTES_PER_GB = BYTES_PER_MB * 1024L;
     
     /**
      * Validate that a file exists and is readable
@@ -59,14 +62,28 @@ public class FileHelper {
      * Format file size for display
      */
     public static String formatFileSize(long bytes) {
-        if (bytes < 1024) {
+        if (bytes < BYTES_PER_KB) {
             return bytes + " B";
-        } else if (bytes < 1024 * 1024) {
-            return String.format("%.2f KB", bytes / 1024.0);
-        } else if (bytes < 1024 * 1024 * 1024) {
-            return String.format("%.2f MB", bytes / (1024.0 * 1024.0));
+        } else if (bytes < BYTES_PER_MB) {
+            return String.format("%.2f KB", bytes / (double) BYTES_PER_KB);
+        } else if (bytes < BYTES_PER_GB) {
+            return String.format("%.2f MB", bytes / (double) BYTES_PER_MB);
         } else {
-            return String.format("%.2f GB", bytes / (1024.0 * 1024.0 * 1024.0));
+            return String.format("%.2f GB", bytes / (double) BYTES_PER_GB);
         }
+    }
+    
+    /**
+     * Process comma-separated values (trim whitespace)
+     */
+    public static String[] processCommaSeparatedValues(String input) {
+        if (input == null || input.isEmpty()) {
+            return new String[0];
+        }
+        String[] values = input.split(",");
+        for (int i = 0; i < values.length; i++) {
+            values[i] = values[i].trim();
+        }
+        return values;
     }
 }

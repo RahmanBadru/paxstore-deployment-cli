@@ -147,7 +147,8 @@ public class UploadCommand implements Callable<Integer> {
         if (dryRun) {
             if (!quiet) {
                 ResultHandler.printInfo("Dry run: All validations passed. APK would be uploaded.");
-                ResultHandler.printInfo("APK file: " + apkFile + " (" + FileHelper.formatFileSize(FileHelper.getFileSize(apkFile)) + ")");
+                long fileSize = FileHelper.getFileSize(apkFile);
+                ResultHandler.printInfo("APK file: " + apkFile + " (" + FileHelper.formatFileSize(fileSize) + ")");
                 ResultHandler.printInfo("App name: " + appName);
                 ResultHandler.printInfo("Base type: " + baseType);
                 ResultHandler.printInfo("Charge type: " + chargeType);
@@ -169,19 +170,13 @@ public class UploadCommand implements Callable<Integer> {
         
         // Parse and set models
         if (models != null && !models.isEmpty()) {
-            String[] modelArray = models.split(",");
-            for (int i = 0; i < modelArray.length; i++) {
-                modelArray[i] = modelArray[i].trim();
-            }
+            String[] modelArray = FileHelper.processCommaSeparatedValues(models);
             request.setOsType(String.join(",", modelArray));
         }
         
         // Parse and set categories
         if (categories != null && !categories.isEmpty()) {
-            String[] categoryArray = categories.split(",");
-            for (int i = 0; i < categoryArray.length; i++) {
-                categoryArray[i] = categoryArray[i].trim();
-            }
+            String[] categoryArray = FileHelper.processCommaSeparatedValues(categories);
             request.setType(String.join(",", categoryArray));
         }
         
@@ -211,7 +206,8 @@ public class UploadCommand implements Callable<Integer> {
         
         if (!quiet) {
             ResultHandler.printInfo("Uploading APK to PAXStore...");
-            ResultHandler.printInfo("APK file: " + apkFile + " (" + FileHelper.formatFileSize(FileHelper.getFileSize(apkFile)) + ")");
+            long fileSize = FileHelper.getFileSize(apkFile);
+            ResultHandler.printInfo("APK file: " + apkFile + " (" + FileHelper.formatFileSize(fileSize) + ")");
         }
         
         // Upload APK

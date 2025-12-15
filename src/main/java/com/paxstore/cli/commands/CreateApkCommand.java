@@ -136,19 +136,13 @@ public class CreateApkCommand implements Callable<Integer> {
         
         // Parse and set models
         if (models != null && !models.isEmpty()) {
-            String[] modelArray = models.split(",");
-            for (int i = 0; i < modelArray.length; i++) {
-                modelArray[i] = modelArray[i].trim();
-            }
+            String[] modelArray = FileHelper.processCommaSeparatedValues(models);
             request.setOsType(String.join(",", modelArray));
         }
         
         // Parse and set categories
         if (categories != null && !categories.isEmpty()) {
-            String[] categoryArray = categories.split(",");
-            for (int i = 0; i < categoryArray.length; i++) {
-                categoryArray[i] = categoryArray[i].trim();
-            }
+            String[] categoryArray = FileHelper.processCommaSeparatedValues(categories);
             request.setType(String.join(",", categoryArray));
         }
         

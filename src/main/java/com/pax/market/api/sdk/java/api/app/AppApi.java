@@ -11,6 +11,9 @@ import java.util.List;
  * Update this when the real SDK is available.
  */
 public class AppApi {
+    private static final int MOCK_ERROR_CODE = 999;
+    private static final String MOCK_ERROR_MESSAGE = "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md";
+    
     private String baseUrl;
     private String apiKey;
     private String apiSecret;
@@ -23,41 +26,41 @@ public class AppApi {
     
     public Result<Long> uploadApk(CreateApkRequest request) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
     
     public Result<String> submitApk(Long apkId) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
     
     public Result<AppInfo> getAppInfoByName(String packageName, String appName) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
     
     public Result<ApkInfo> getApkById(Long apkId) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
     
     public Result<List<ApkVersionInfo>> getApkVersionList(Long appId) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
     
     public Result<String> createApp(CreateSingleAppRequest request) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
     
     public Result<Long> createApk(CreateSingleApkRequest request) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
     
     public Result<String> deleteApk(Long apkId) {
         // TODO: Implement actual API call when SDK is available
-        return new Result<>(999, "MOCK: SDK not yet integrated. See SDK_INTEGRATION_NOTE.md", null);
+        return new Result<>(MOCK_ERROR_CODE, MOCK_ERROR_MESSAGE, null);
     }
 }
