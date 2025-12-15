@@ -6,6 +6,8 @@ This guide is for developers who have **little to no Java experience** and need 
 
 This is a **command-line tool** (CLI) that lets you upload Android APKs to PAXStore automatically. Think of it as a robot that talks to PAXStore's API so you don't have to write code.
 
+The tool is now **fully integrated** with the PAXStore Developer SDK and ready for production use!
+
 ## What is Java and Why Do We Need It?
 
 **Java** is a programming language. This tool is written in Java, so you need Java installed to run it. Don't worry - you don't need to write any Java code!
@@ -80,24 +82,9 @@ mvn -version
 3. Add `C:\Program Files\Maven\bin` to your PATH
 4. Open new Command Prompt: `mvn -version`
 
-## Step 3: Install PAXStore SDK (One-Time Setup)
+## Step 3: Download and Build This Tool
 
-The PAXStore SDK is a library this tool depends on. You need to install it to your computer once.
-
-```bash
-# Go to your home directory (or any directory you like)
-cd ~
-
-# Download the PAXStore SDK
-git clone https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git
-
-# Go into the SDK directory
-cd paxstore-openapi-java-sdk
-
-# Install it (this takes 1-2 minutes)
-mvn clean install -DskipTests
-
-# You should see "BUILD SUCCESS" at the end
+The PAXStore Developer SDK will be automatically downloaded from JitPack when you build the tool.
 ```
 
 **What does this do?** It downloads the PAXStore SDK code and installs it to your computer's local Maven repository (usually at `~/.m2/repository`).
@@ -111,17 +98,35 @@ cd ~/projects  # or wherever you keep your code
 # Clone this repository
 git clone https://github.com/RahmanBadru/paxstore-deployment-cli.git
 
+# Download this tool
+git clone https://github.com/RahmanBadru/paxstore-deployment-cli.git
+
 # Go into the project
 cd paxstore-deployment-cli
 
-# Build it (Unix/Linux/Mac)
+# Build it - Maven will automatically download the PAXStore SDK from JitPack
+mvn clean package
+
+# OR use the build scripts (Unix/Linux/Mac)
 ./build.sh
 
 # OR on Windows
 build.bat
 ```
 
-**What happened?** Maven downloaded all dependencies and created a single file called `paxstore-cli.jar` in the `target/` directory. This JAR file contains everything you need - you can copy it anywhere!
+**What happened?** 
+- Maven automatically downloaded the PAXStore Developer SDK from JitPack
+- It downloaded all other dependencies (picocli, gson, slf4j)
+- It compiled the code and created a single file called `paxstore-cli.jar` in the `target/` directory
+- This JAR file contains everything you need - you can copy it anywhere!
+
+**Expected output:**
+```
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
+The final JAR will be about 20-30 MB because it includes the PAXStore SDK and all dependencies.
 
 ## Step 5: Set Up Your Credentials
 
