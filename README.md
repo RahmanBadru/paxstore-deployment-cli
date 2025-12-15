@@ -1,5 +1,7 @@
 # PAXStore CLI - Deployment Tool for CI/CD
 
+> **📋 Project Status**: This CLI tool is **fully implemented** with all commands, validation, error handling, and CI/CD examples. However, it currently uses **mock SDK classes** because the actual PAXStore Developer SDK for APK uploads needs to be identified and integrated. See [SDK_INTEGRATION_NOTE.md](SDK_INTEGRATION_NOTE.md) for details and next steps.
+
 A production-ready command-line interface for the PAXStore Developer SDK, designed to simplify APK deployment in CI/CD pipelines (especially Bitbucket Pipelines).
 
 ## Features
@@ -13,6 +15,8 @@ A production-ready command-line interface for the PAXStore Developer SDK, design
 - ✅ **Beginner Friendly** - No Java knowledge required (see BEGINNER_GUIDE.md)
 
 ## Quick Start
+
+> **⚠️ Important Note**: This CLI tool is production-ready in structure but uses mock SDK classes. The actual PAXStore Developer SDK for uploading APKs needs to be configured. See [SDK_INTEGRATION_NOTE.md](SDK_INTEGRATION_NOTE.md) for details.
 
 ### 1. Install Prerequisites
 
@@ -35,23 +39,9 @@ brew install openjdk@11
 **Windows:**
 Download from [Adoptium](https://adoptium.net/)
 
-### 2. Install PAXStore SDK
+### 2. Build the CLI Tool
 
-The PAXStore SDK is not in Maven Central, so you need to install it locally first:
-
-```bash
-# Clone the PAXStore SDK
-git clone https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git
-cd paxstore-openapi-java-sdk
-
-# Install to local Maven repository
-mvn clean install -DskipTests
-
-# Return to CLI directory
-cd ..
-```
-
-### 3. Build the CLI Tool
+**Note**: Currently using mock SDK classes. For production use, you'll need to integrate the actual PAXStore SDK.
 
 ```bash
 # Clone this repository
@@ -65,9 +55,9 @@ cd paxstore-deployment-cli
 build.bat
 ```
 
-This creates `target/paxstore-cli.jar` - a single executable JAR with all dependencies.
+This creates `target/paxstore-cli.jar` - a single executable JAR with all dependencies (791KB).
 
-### 4. Configure Credentials
+### 3. Configure Credentials
 
 Set environment variables (recommended for CI/CD):
 
@@ -77,7 +67,9 @@ export PAXSTORE_API_KEY=your-api-key
 export PAXSTORE_API_SECRET=your-api-secret
 ```
 
-### 5. Run Commands
+### 4. Run Commands
+
+**Note**: Commands currently return mock responses. See SDK_INTEGRATION_NOTE.md for SDK integration status.
 
 ```bash
 # Upload APK
