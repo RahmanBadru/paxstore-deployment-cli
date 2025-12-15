@@ -21,12 +21,14 @@
     </properties>
 
     <dependencies>
-        <!-- PAXStore SDK - Install locally first, see README.md -->
-        <dependency>
-            <groupId>com.pax.market.api</groupId>
-            <artifactId>paxstore-openapi-java-sdk</artifactId>
-            <version>7.4.3</version>
-        </dependency>
+        <!-- PAXStore SDK - See SDK_INTEGRATION_NOTE.md for details -->
+        <!-- The actual SDK needs to be determined and configured -->
+        <!-- <dependency>
+            <groupId>com.whatspos.sdk</groupId>
+            <artifactId>3rdsys-openapi</artifactId>
+            <version>10.0.0</version>
+        </dependency> -->
+
 
         <!-- CLI framework -->
         <dependency>
